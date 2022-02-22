@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat</title>
+  </head>
+  <body>
+    <h1 class="text-xl bg-gray-100 p-4" id="me"></h1>
+    <main class="m-4">
+      <button id="btn-join" class="bg-blue-500 rounded p-2 text-white">
+        Unirme
+      </button>
+      <div id="messages"></div>
+    </main>
+    <div
+      class="fixed bottom-0 left-0 right-0 flex p-2 items-center justify-between bg-gray-100"
+    >
+      <select id="users" hidden></select>
+      <input
+        id="msg"
+        class="w-full p-2 bg-gray-100 outline-none"
+        placeholder="escriba algo..."
+        type="search"
+      />
+      <button id="enviar" class="text-blue-500">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </button>
+    </div>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/main.js"></script>
+  </body>
+</html>
