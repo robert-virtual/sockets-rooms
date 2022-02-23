@@ -54,10 +54,14 @@ io.on("connection", (socket) => {
       socket.to(to).emit("message", { msg, user, private });
       // socket.broadcast.emit("chat message", msg);
     });
-  });
 
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
+    socket.on("disconnect", () => {
+      room.users = room.users.filter((u) => u.id != socket.id);
+      if (room.users.length == 0) {
+        rooms = rooms.filter((r) => r.id != room.id);
+      }
+      console.log("user disconnected");
+    });
   });
 });
 
