@@ -8,7 +8,12 @@ const server = createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-let users = [];
+let rooms = [
+  {
+    id: "",
+    users: [],
+  },
+];
 
 app.get("/", (req, res) => {
   res.redirect(`/${uuid()}`);
@@ -22,26 +27,33 @@ app.get("/:id", (req, res) => {
 io.on("connection", (socket) => {
   console.log("new connection");
 
-  socket.on("message", (to, msg) => {
-    console.log("message: " + msg);
-    let user = users.find((u) => u.id == socket.id);
-    let private = users.find((u) => u.id == to);
-    if (private) {
-      private = true;
-    }
-    io.to(user.id).emit("message", { msg, user, private });
-    socket.to(to).emit("message", { msg, user, private });
-    // socket.broadcast.emit("chat message", msg);
-  });
-
   socket.on("join-room", (roomId, { userName, color }) => {
     let user = { id: socket.id, userName, color };
     socket.join(roomId);
-    io.to(socket.id).emit("join", users);
+    let room = rooms.find((r) => r.id == roomId);
+    if (!room) {
+      room = {
+        id: roomId,
+        users: [],
+      };
+      rooms.push(room);
+    }
+    room.users.push(user);
+    io.to(socket.id).emit("join", room.users);
 
     // users.push({roomId,users}});
-    users.push(user);
-    socket.to(roomId).emit("new-participant", users);
+    socket.to(roomId).emit("new-participant", room.users);
+    socket.on("message", (to, msg) => {
+      console.log("message: " + msg);
+      let user = room.users.find((u) => u.id == socket.id);
+      let private = room.users.find((u) => u.id == to);
+      if (private) {
+        private = true;
+      }
+      io.to(user.id).emit("message", { msg, user, private });
+      socket.to(to).emit("message", { msg, user, private });
+      // socket.broadcast.emit("chat message", msg);
+    });
   });
 
   socket.on("disconnect", () => {

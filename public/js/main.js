@@ -3,6 +3,7 @@ const socket = io();
 const messages = document.getElementById("messages");
 const usersList = document.getElementById("users-list");
 const me = document.getElementById("me");
+const who = document.getElementById("who");
 const openMenu = document.getElementById("open-menu");
 const msg = document.getElementById("msg");
 const enviar = document.getElementById("enviar");
@@ -96,6 +97,7 @@ function addToMenu(users = []) {
       // div.id = id;
       div.addEventListener("click", () => {
         usersE.value = id;
+        who.textContent = userName;
       });
       const p = document.createElement("p");
       p.textContent = userName;
