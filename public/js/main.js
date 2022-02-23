@@ -66,6 +66,10 @@ socket.on("message", ({ msg, user, private }) => {
   div.append(text);
 
   messages.append(div);
+  messages.scrollTo({
+    behavior: "smooth",
+    top: messages.scrollHeight,
+  });
 });
 
 function addUsers(users = []) {

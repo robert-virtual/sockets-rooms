@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const uuid = require("uuid").v4;
-
+const port = process.env.PORT || 3000;
 const { createServer } = require("http");
 const path = require("path");
 const server = createServer(app);
@@ -61,6 +61,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(process.env.PORT, () => {
-  console.log("listening on *:", process.env.PORT);
+server.listen(port, () => {
+  console.log("listening on *:", port);
 });
