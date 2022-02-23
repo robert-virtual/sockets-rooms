@@ -25,14 +25,17 @@ io.on("connection", (socket) => {
   socket.on("message", (to, msg) => {
     console.log("message: " + msg);
     let user = users.find((u) => u.id == socket.id);
-
-    io.to(user.id).emit("message", { msg, user });
-    socket.to(to).emit("message", { msg, user });
+    let private = users.find((u) => u.id == to);
+    if (private) {
+      private = true;
+    }
+    io.to(user.id).emit("message", { msg, user, private });
+    socket.to(to).emit("message", { msg, user, private });
     // socket.broadcast.emit("chat message", msg);
   });
 
-  socket.on("join-room", (roomId, userName) => {
-    let user = { id: socket.id, userName };
+  socket.on("join-room", (roomId, { userName, color }) => {
+    let user = { id: socket.id, userName, color };
     socket.join(roomId);
     io.to(socket.id).emit("join", users);
 

@@ -7,20 +7,51 @@
     <title>Chat</title>
   </head>
   <body>
-    <h1 class="text-xl bg-gray-100 p-4" id="me"></h1>
-    <main class="m-4">
-      <button id="btn-join" class="bg-blue-500 rounded p-2 text-white">
-        Unirme
+    <nav class="bg-sky-400 text-white p-4 flex justify-between h-[7vh]">
+      <h1 class="text-xl" id="me"></h1>
+      <button id="open-menu" class="self-end">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
       </button>
-      <div id="messages"></div>
+    </nav>
+    <button
+      id="btn-join"
+      class="absolute bg-blue-500 rounded p-2 text-white m-2"
+    >
+      Unirme
+    </button>
+    <main class="flex justify-between h-[86vh]">
+      <div
+        id="messages"
+        class="hidden flex flex-col gap-2 p-2 grow h-full overflow-auto"
+      ></div>
+      <div
+        id="users-list"
+        class="bg-cyan-100 text-black grow px-2 self-end hidden h-full overflow-auto"
+      >
+        <h2>Users</h2>
+      </div>
     </main>
     <div
-      class="fixed bottom-0 left-0 right-0 flex p-2 items-center justify-between bg-gray-100"
+      id="msg-container"
+      class="hidden fixed bottom-0 left-0 w-full flex p-2 items-center justify-between bg-gray-100 h-[7vh]"
     >
       <select id="users" hidden></select>
       <input
         id="msg"
-        class="w-full p-2 bg-gray-100 outline-none"
+        class="p-2 w-full bg-gray-100 outline-none"
         placeholder="escriba algo..."
         type="search"
       />
