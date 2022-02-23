@@ -8,12 +8,7 @@ const server = createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-let rooms = [
-  {
-    id: "",
-    users: [],
-  },
-];
+let rooms = [];
 
 app.get("/", (req, res) => {
   res.redirect(`/${uuid()}`);
@@ -22,6 +17,10 @@ app.use(express.static("public"));
 
 app.get("/:id", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
+});
+
+app.get("/rooms/check", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/pages/rooms.html"));
 });
 
 io.on("connection", (socket) => {
@@ -39,6 +38,7 @@ io.on("connection", (socket) => {
       rooms.push(room);
     }
     room.users.push(user);
+    io.emit("rooms", rooms);
     io.to(socket.id).emit("join", room.users);
 
     // users.push({roomId,users}});
@@ -60,6 +60,7 @@ io.on("connection", (socket) => {
       if (room.users.length == 0) {
         rooms = rooms.filter((r) => r.id != room.id);
       }
+      io.emit("rooms", rooms);
       console.log("user disconnected");
     });
   });
